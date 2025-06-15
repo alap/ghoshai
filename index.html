@@ -1,7 +1,527 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ghosh.ai - strategic consulting</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,500,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f0e8;
+            color: #1a1a1a;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(245, 240, 232, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px 40px;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: -1px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 16px;
+            font-weight: 400;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 25px 80px;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 120px);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 40px;
+            letter-spacing: -3px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .hero .subtitle {
+            font-size: clamp(20px, 3vw, 32px);
+            font-weight: 300;
+            color: #666;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+        
+        .tagline {
+            font-size: 18px;
+            font-style: italic;
+            color: #888;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease 0.4s forwards;
+        }
+        
+        /* Section Styles */
+        .section {
+            padding: 100px 25px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-dark {
+            background-color: #1a1a1a;
+            color: #f5f0e8;
+            margin: 0 auto;
+            padding: 100px 25px;
+            max-width: 1400px;
+        }
+        
+        .section-title {
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 300;
+            margin-bottom: 60px;
+            letter-spacing: -2px;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .section-title,
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 60px;
+            margin-top: 80px;
+        }
+        
+        .service-card {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 40px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-dark .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .service-card h3 {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+        
+        .service-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .service-card li {
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #666;
+        }
+        
+        .section-dark .service-card li {
+            color: #ccc;
+        }
+        
+        .service-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #999;
+        }
+        
+        /* Quote Section */
+        .quote-section {
+            text-align: center;
+            padding: 120px 25px;
+            background: linear-gradient(135deg, #f5f0e8 0%, #e8e0d5 100%);
+        }
+        
+        .quote {
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 300;
+            font-style: italic;
+            max-width: 1000px;
+            margin: 0 auto;
+            line-height: 1.4;
+            letter-spacing: -1px;
+        }
+        
+        /* Impact Areas */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .impact-item {
+            padding: 30px;
+            background: rgba(26, 26, 26, 0.05);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .impact-item:hover {
+            background: rgba(26, 26, 26, 0.08);
+            transform: translateX(5px);
+        }
+        
+        .impact-item h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        /* Contact Section */
+        .contact {
+            text-align: center;
+            padding: 100px 25px;
+        }
+        
+        .contact-info {
+            margin-top: 40px;
+            font-size: 20px;
+        }
+        
+        .contact-info a {
+            color: #1a1a1a;
+            text-decoration: none;
+            display: block;
+            margin: 10px 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .contact-info a:hover {
+            opacity: 0.6;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #f5f0e8;
+            text-align: center;
+            padding: 40px 25px;
+            font-size: 14px;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero {
+                padding: 100px 20px 60px;
+            }
+            
+            .section {
+                padding: 60px 20px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .service-card {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
 <body>
-<h1>Hello Alap</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">ghosh.ai</div>
+            <ul class="nav-links">
+                <li><a href="#services">services</a></li>
+                <li><a href="#approach">approach</a></li>
+                <li><a href="#impact">impact</a></li>
+                <li><a href="#contact">contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>first principles consulting for consumer tech, marketing tech and AI adoption</h1>
+            <p class="subtitle">Strategic Consulting for Companies of the Future</p>
+            <p class="tagline">25 years of super specialisation across product, marketing, technology and AI</p>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section section-dark">
+        <h2 class="section-title fade-in">start with reframing the opportunity</h2>
+        
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <h3>VC / VL / PE / Capital Partnership Advisory</h3>
+                <ul>
+                    <li>Evaluating present and potential technology investments</li>
+                    <li>Guiding portfolio companies on product strategies</li>
+                    <li>Growth strategy development and execution</li>
+                    <li>Technology due diligence and assessment</li>
+                </ul>
+            </div>
+            
+            <div class="service-card fade-in">
+                <h3>Agency Transformation</h3>
+                <ul>
+                    <li>Martech stack optimization and service portfolio expansion</li>
+                    <li>Strategic positioning in data-driven marketing</li>
+                    <li>Capability development and team structuring</li>
+                    <li>Digital transformation roadmaps</li>
+                </ul>
+            </div>
+            
+            <div class="service-card fade-in">
+                <h3>Consumer Tech Product & Services Startups</h3>
+                <ul>
+                    <li>Product design and product-market fit refinement</li>
+                    <li>Go-to-market strategy development</li>
+                    <li>Core client systems implementation</li>
+                    <li>Data analytics and automation solutions</li>
+                </ul>
+            </div>
+            
+            <div class="service-card fade-in">
+                <h3>Marketing Technology Products</h3>
+                <ul>
+                    <li>International growth through partnerships</li>
+                    <li>Product innovation for sales expansion</li>
+                    <li>Sales talent management and optimization</li>
+                    <li>Market entry and expansion strategies</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quote-section">
+        <div class="quote fade-in">
+            "Good brands don't just do what others do. They predict what clients need before they know it and build it."
+        </div>
+    </section>
+
+    <!-- Approach Section -->
+    <section id="approach" class="section">
+        <h2 class="section-title fade-in">iterating towards profitability</h2>
+        
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <h3>multi-partner environments</h3>
+                <p>Prepare to recognise and include the client's chosen partners. Build direct agency partnerships and be first to introduce to clients.</p>
+            </div>
+            
+            <div class="service-card fade-in">
+                <h3>multi-market spread</h3>
+                <p>Incubate in mature markets, scale in local markets, succeed everywhere. Invest in earning the right to play and win.</p>
+            </div>
+            
+            <div class="service-card fade-in">
+                <h3>research & development</h3>
+                <p>Invest for knowledge, sophistication, credibility, innovation, and differentiation. Build radical profit and credibility drivers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="section section-dark">
+        <h2 class="section-title fade-in">key impact areas</h2>
+        
+        <div class="impact-grid">
+            <div class="impact-item fade-in">
+                <h4>Digital transformation roadmaps and execution</h4>
+                <p>End-to-end digital transformation strategies tailored to your business needs</p>
+            </div>
+            
+            <div class="impact-item fade-in">
+                <h4>Consumer Tech Product offering design & development</h4>
+                <p>Creating compelling product offerings that resonate with target audiences</p>
+            </div>
+            
+            <div class="impact-item fade-in">
+                <h4>Martech implementation and optimization</h4>
+                <p>Streamlining marketing technology stacks for maximum efficiency</p>
+            </div>
+            
+            <div class="impact-item fade-in">
+                <h4>Data strategy and analytics capability building</h4>
+                <p>Building robust data infrastructures and analytical capabilities</p>
+            </div>
+            
+            <div class="impact-item fade-in">
+                <h4>Revenue growth and market expansion strategies</h4>
+                <p>Identifying and capitalizing on growth opportunities</p>
+            </div>
+            
+            <div class="impact-item fade-in">
+                <h4>Team structure and capability development</h4>
+                <p>Building high-performing teams with the right skills and structure</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title fade-in">let's talk</h2>
+        <div class="contact-info fade-in">
+            <a href="mailto:admin@ghosh.ai">admin@ghosh.ai</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 alap ghosh / epiq</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
